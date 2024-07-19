@@ -5,9 +5,7 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Belajar2", "Belajar2.csproj", "{5E07BD77-D16F-49BA-8631-33CFF135DFE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.PublishSubscribe", "..\Library.PublishSubscribe\Library.PublishSubscribe.csproj", "{23D0A57A-F799-4CA6-92D4-D88278C505CC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.PublishSubscribe2", "..\Library.PublishSubscribe2\Library.PublishSubscribe2.csproj", "{A9B89D27-A257-45FE-BD45-1C8C3165B0E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.PublishSubscribe2", "..\Library.PublishSubscribe2\Library.PublishSubscribe2.csproj", "{A9B89D27-A257-45FE-BD45-1C8C3165B0E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		{5E07BD77-D16F-49BA-8631-33CFF135DFE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E07BD77-D16F-49BA-8631-33CFF135DFE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E07BD77-D16F-49BA-8631-33CFF135DFE4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{23D0A57A-F799-4CA6-92D4-D88278C505CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23D0A57A-F799-4CA6-92D4-D88278C505CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23D0A57A-F799-4CA6-92D4-D88278C505CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23D0A57A-F799-4CA6-92D4-D88278C505CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9B89D27-A257-45FE-BD45-1C8C3165B0E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9B89D27-A257-45FE-BD45-1C8C3165B0E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9B89D27-A257-45FE-BD45-1C8C3165B0E2}.Release|Any CPU.ActiveCfg = Release|Any CPU

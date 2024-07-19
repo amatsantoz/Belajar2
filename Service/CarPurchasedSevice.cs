@@ -19,7 +19,6 @@ namespace Belajar2
         {
             try
             {
-                OutboxEvent outboxEvent = null;
                 CarPurchase carPurchase = null;
 
                 var car = await _context.Cars.FindAsync(carId);
@@ -41,7 +40,7 @@ namespace Belajar2
                     _context.CarPurchases.Add(carPurchase);
                     await _context.SaveChangesAsync();
 
-                    outboxEvent = new OutboxEvent
+                    var outboxEvent = new OutboxEvent
                     {
                         AggregateId = Guid.NewGuid(),
                         EventType = "CarPurchased",
@@ -67,57 +66,28 @@ namespace Belajar2
                     throw;
                 }
 
-                try
+                if(carPurchase != null)
                 {
-                    var payload = SerializeWithOptions(carPurchase);
-                    var headers = new List<KeyValuePair<string, string>>
+                    try
                     {
-                        new KeyValuePair<string, string>("EventType", "CarPurchased"),
-                        new KeyValuePair<string, string>("CorrelationId", Guid.NewGuid().ToString())
-                    };
+                        var payload = SerializeWithOptions(carPurchase);
+                        var headers = new List<KeyValuePair<string, string>>
+                        {
+                            new KeyValuePair<string, string>("EventType", "CarPurchased"),
+                            new KeyValuePair<string, string>("CorrelationId", Guid.NewGuid().ToString())
+                        };
 
-                    // Gunakan carId sebagai kunci dan sertakan header
-                    await _pub.PublishAsync("car-purchases2", carId.ToString(), payload, headers);
-                }
-                catch (Exception kafkaEx)
-                {
-                    Console.WriteLine("Kafka error: " + kafkaEx.Message);
-
-                    // Lempar exception agar bisa ditangani di lapisan atas
-                    throw;
-                }
-
-                #region outboxEvent
-                /*// Mulai transaksi baru untuk OutboxEvent
-                using var outboxTransaction = await _context.Database.BeginTransactionAsync();
-                try
-                {
-                    // Buat dan simpan OutboxEvent ke basis data
-                    outboxEvent = new OutboxEvent
+                        // Gunakan carId sebagai kunci dan sertakan header
+                        await _pub.PublishAsync("car-purchases2", carId.ToString(), payload, headers);
+                    }
+                    catch (Exception kafkaEx)
                     {
-                        AggregateId = Guid.NewGuid(),
-                        EventType = "CarPurchased",
-                        Payload = SerializeWithOptions(carPurchase),
-                        CreatedAt = DateTime.UtcNow,
-                        Processed = false
-                    };
+                        Console.WriteLine("Kafka error: " + kafkaEx.Message);
 
-                    _context.Outbox.Add(outboxEvent);
-                    await _context.SaveChangesAsync();
-
-                    // Commit transaksi outbox
-                    await outboxTransaction.CommitAsync();
+                        // Lempar exception agar bisa ditangani di lapisan atas
+                        throw;
+                    }
                 }
-                catch (Exception outboxEx)
-                {
-                    // Rollback transaksi outbox jika ada kesalahan
-                    await outboxTransaction.RollbackAsync();
-                    Console.WriteLine("Outbox error: " + outboxEx.Message);
-
-                    // Lempar exception agar bisa ditangani di lapisan atas
-                    throw;
-                }*/
-                #endregion 
             }
             catch (Exception ex)
             {

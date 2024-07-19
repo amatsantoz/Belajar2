@@ -1,12 +1,6 @@
 ﻿using Belajar2.GraphQL.Cars;
 using Microsoft.EntityFrameworkCore;
-using Library.PublishSubscribe;
-using Belajar2.Handler;
-using System.Reflection;
-using MediatR;
 using Library.PublishSubscribe2;
-using Confluent.Kafka;
-using Confluent.Kafka.Admin;
 
 namespace Belajar2
 {
@@ -35,63 +29,16 @@ namespace Belajar2
                 .AddType<CarType>()
                 .AddType<CarInputType>();
 
-
             // Menggunakan extension methods untuk mendaftarkan Kafka Producer dan Consumer
             services.AddKafkaServices();
-            //services.AddPublishService2<Pub2>("car-purchases2");
-            //services.AddSubscribeService2<Sub2>("cuaca");
 
             services.AddScoped<CarPurchaseService>();
                     
             // Tambahkan logging untuk diagnosa
             services.AddLogging(configure => configure.AddConsole());
 
-            // Konfigurasi Kafka consumer
-            var consumerConfig = new ConsumerConfig
-            {
-                BootstrapServers = "127.0.0.100:9092",
-                GroupId = "car-purchases-consumer-group",
-                AutoOffsetReset = AutoOffsetReset.Earliest
-            };
-            var adminBuilder = new AdminClientBuilder(consumerConfig);
-
-            var adminClient = adminBuilder.Build();
-
-            try
-            {
-                adminClient.CreateTopicsAsync(new List<TopicSpecification>()
-                {
-                    new()
-                    {
-                        Name = "car-purchases2",
-                        NumPartitions = 1,
-                        ReplicationFactor = 1
-                    }
-                }).GetAwaiter().GetResult();
-
-            }
-            catch (CreateTopicsException ex)
-            {
-                Console.WriteLine("Topic already exist");
-            }
-
-            // Daftarkan Kafka consumer
-
-            services.AddSingleton<IConsumer<string, string>>(new ConsumerBuilder<string, string>(consumerConfig).Build());
-
             // Daftarkan background service
             services.AddHostedService<KafkaConsumerService>();
-
-            #region trialKafka
-            /*services.AddMediatR(typeof(AddCommandHandler).GetTypeInfo().Assembly);
-
-            services.AddPublishSubscribeService();
-            services.AddKafkaProducer<string, WeatherForecast>(p =>
-            {
-                p.Topic = "users";
-                p.BootstrapServers = "localhost:9092";
-            });*/
-            #endregion
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
@@ -138,7 +85,5 @@ namespace Belajar2
 
             logger.LogInformation("Application configuration is complete.");
         }
-
-
     }
 }

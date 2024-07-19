@@ -1,10 +1,5 @@
 ﻿using Confluent.Kafka;
 using System.Text.Json;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Belajar2
 {
@@ -20,7 +15,7 @@ namespace Belajar2
             _logger = logger;
             _consumer = consumer;
             _serviceProvider = serviceProvider;
-            _semaphoreSlim = new SemaphoreSlim(1, 1); // Membatasi maksimal 5 thread
+            _semaphoreSlim = new SemaphoreSlim(1, 1);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -62,7 +57,6 @@ namespace Belajar2
                     _logger.LogError(ex, "Error consuming Kafka message");
                 }
             }
-
             _consumer.Close();
             _logger.LogInformation("Kafka consumer service is stopping.");
         }
@@ -104,14 +98,6 @@ namespace Belajar2
             {
                 _semaphoreSlim.Release(); // Melepaskan akses ke bagian kritis
             }
-        }
-
-        public class CarPurchase
-        {
-            public int Id { get; set; }
-            public int CarId { get; set; } // Foreign key to Car
-            public int Quantity { get; set; }
-            public DateTime PurchaseDate { get; set; }
         }
     }
 }

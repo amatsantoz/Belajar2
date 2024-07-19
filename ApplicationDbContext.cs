@@ -7,7 +7,6 @@ namespace Belajar2
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
-        public DbSet<WeatherForecast> WeatherForecasts { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<OutboxEvent> Outbox { get; set; }
         public DbSet<CarPurchase> CarPurchases { get; set; }
@@ -15,19 +14,6 @@ namespace Belajar2
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<WeatherForecast>()
-                .HasKey(x => x.Id);
-            modelBuilder.Entity<WeatherForecast>()
-                .Property(x => x.Date)
-                .IsRequired();
-            modelBuilder.Entity<WeatherForecast>()
-                .Property(x => x.TemperatureC)
-                .IsRequired();
-            modelBuilder.Entity<WeatherForecast>()
-                .Property(x => x.Summary)
-                .HasMaxLength(50)
-                .IsRequired();
 
             modelBuilder.Entity<Car>()
                 .HasKey(c => c.Id);
