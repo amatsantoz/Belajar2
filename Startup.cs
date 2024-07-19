@@ -26,8 +26,7 @@ namespace Belajar2
             services.AddGraphQLServer()
                 .AddQueryType<QueryCar>()
                 .AddMutationType<MutationCar>()
-                .AddType<CarType>()
-                .AddType<CarInputType>();
+                .AddType<CarType>();
 
             // Menggunakan extension methods untuk mendaftarkan Kafka Producer dan Consumer
             services.AddKafkaServices();
