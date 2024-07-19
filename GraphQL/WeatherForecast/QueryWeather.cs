@@ -2,7 +2,7 @@
 
 namespace Belajar2.GraphQL
 {
-    public class Query
+    public class QueryWeather
     {
         public string Hello() => "Worldd";
 

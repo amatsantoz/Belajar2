@@ -3,11 +3,11 @@ using System.Text.Json;
 
 namespace Belajar2.GraphQL
 {
-    public class Mutation
+    public class MutationWeather
     {
         private readonly IPub2 _pub;
 
-        public Mutation(IPub2 pub) 
+        public MutationWeather(IPub2 pub) 
         { 
             _pub = pub; 
         }
@@ -16,7 +16,7 @@ namespace Belajar2.GraphQL
         {
             context.WeatherForecasts.Add(newWeather);
             await context.SaveChangesAsync();
-            await _pub.PublishAsync("Data Prakiraan Cuaca Terbaru Sudah Ditambahkan");
+            //await _pub.PublishAsync("Data Prakiraan Cuaca Terbaru Sudah Ditambahkan");
             //await _pub.PublishAsync("CreateWeather", JsonSerializer.Serialize(newWeather));
             return newWeather;
         }
@@ -26,7 +26,7 @@ namespace Belajar2.GraphQL
         {
             context.WeatherForecasts.Update(updateWeather);
             await context.SaveChangesAsync();
-            await _pub.PublishAsync($"Data Prakiraan Cuaca Sudah Diupdate");
+            //await _pub.PublishAsync($"Data Prakiraan Cuaca Sudah Diupdate");
 
             return updateWeather;
         }
@@ -42,7 +42,7 @@ namespace Belajar2.GraphQL
             };
             context.WeatherForecasts.Add(newWeather);
             await context.SaveChangesAsync();
-            await _pub.PublishAsync("Data Prakiraan Cuaca Terbaru Sudah Ditambahkan");
+            //await _pub.PublishAsync("Data Prakiraan Cuaca Terbaru Sudah Ditambahkan");
             return newWeather;
         }
 
@@ -57,7 +57,7 @@ namespace Belajar2.GraphQL
             data.TemperatureC = input.TemperatureC;
             data.Summary = input.Summary;
             await context.SaveChangesAsync();
-            await _pub.PublishAsync($"Data Prakiraan Cuaca Dengan id: {id} Sudah Diupdate");
+            //await _pub.PublishAsync($"Data Prakiraan Cuaca Dengan id: {id} Sudah Diupdate");
             return data;
         }
 
@@ -72,7 +72,7 @@ namespace Belajar2.GraphQL
             }
             context.WeatherForecasts.Remove(weatherToDelete);
             await context.SaveChangesAsync();
-            await _pub.PublishAsync($"Data Prakiraan Cuaca Dengan id: {id} Sudah Dihapus");
+           // await _pub.PublishAsync($"Data Prakiraan Cuaca Dengan id: {id} Sudah Dihapus");
 
             return "Record Deleted!";
         }
